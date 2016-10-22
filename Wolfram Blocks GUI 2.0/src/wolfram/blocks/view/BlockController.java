@@ -31,6 +31,12 @@ public class BlockController {
 	
 	private OutputNodeView output;
 	
+	private MainApp mainApp;
+	
+	public void setMainApp(MainApp mainApp){
+		this.mainApp = mainApp;
+	}
+	
 	public void setBlockData(Expr data) {
 		blockData = data;
 	}
@@ -72,8 +78,8 @@ public class BlockController {
 	
 	private void refreshInOutCenter() {
 		for(Node input : inputs.getChildren() ) {
-			((InputNode)input).setXCenter(CenterCalc.outputCenterX(input));
-			((InputNode)input).setYCenter(CenterCalc.outputCenterY(input));	
+			((InputNode)input).setXCenter(CenterCalc.inputCenterX(input));
+			((InputNode)input).setYCenter(CenterCalc.inputCenterY(input));	
 		}	
 		if(output != null) {
 			output.setXCenter(CenterCalc.outputCenterX(output));
@@ -84,9 +90,10 @@ public class BlockController {
 	private void createOutput() {
 			output = new OutputNodeView();
 			thisBlock.getChildren().addAll(output);
-			System.out.println(thisBlock.getChildren());
-			AnchorPane.setLeftAnchor(output, 162.0);
+			//System.out.println(thisBlock.getChildren());
+			AnchorPane.setLeftAnchor(output, 160.0);
 			AnchorPane.setTopAnchor(output, (200/2)-25.0);
+			output.setMainApp(mainApp);
 	}
 	
 	public void createInput() {

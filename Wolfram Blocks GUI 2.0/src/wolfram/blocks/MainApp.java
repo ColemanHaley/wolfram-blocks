@@ -12,13 +12,16 @@ import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 import wolfram.blocks.model.BlockFactory;
 import wolfram.blocks.view.BlockController;
+import wolfram.blocks.view.InputNode;
+import wolfram.blocks.view.OutputNodeAnchor;
+import wolfram.blocks.view.OutputNodeView;
 import wolfram.blocks.view.RightPaneController;
 
 public class MainApp extends Application {
 	
 	private Stage primaryStage;
 	private BorderPane rootLayout;
-	private double numBlocks = 0;
+	private double numBlocks = 0; //Total number of blocks currently existing
 	private AnchorPane testBlock;
 	private BlockController newController;
 	
@@ -31,17 +34,17 @@ public class MainApp extends Application {
     public void start(Stage mainStage) 
     {
     	this.primaryStage = mainStage;
-        primaryStage.setTitle("Wolfram Blocks");
+        primaryStage.setTitle("Wolfram Blocks"); //TODO: Come up with better title
         
-        initRootLayout();
-        showRightPane();
-        showBlockArea();
+        initRootLayout(); //Make the window
+        showRightPane(); //Make the menu
+        showBlockArea(); //Make the main block stage
     }
     
     public void initRootLayout() {
 		try {
 			
-			FXMLLoader loader = new FXMLLoader();
+			FXMLLoader loader = new FXMLLoader(); 
 			loader.setLocation(MainApp.class.getResource("view/RootLayout.fxml"));
 			rootLayout = (BorderPane) loader.load();
 			
@@ -73,13 +76,13 @@ public class MainApp extends Application {
 			AnchorPane block = (AnchorPane) loader.load();
 			AnchorPane blockArea = ((AnchorPane)rootLayout.getCenter());
 			
-			
 			blockArea.getChildren().addAll(block);
 			block.relocate(100+numBlocks*2, 50+numBlocks*2);
 			AnchorPane.setTopAnchor(block, numBlocks*100);
 			numBlocks++;
 			testBlock = block;
 			newController = loader.getController();
+			newController.setMainApp(this);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

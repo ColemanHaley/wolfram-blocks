@@ -12,6 +12,7 @@ public class CenterCalc {
 	
 		x += block.getLayoutX();
 		x += block.getTranslateX();
+		
 		x += AnchorPane.getLeftAnchor(output);
 		return ShapeCenterCalc.outputShapeCenterX(x);
 	}
@@ -19,7 +20,7 @@ public class CenterCalc {
 		double y = 0;
 		Node block = output.getParent().getParent();
 		
-		y += AnchorPane.getTopAnchor(block);
+		y += AnchorPane.getTopAnchor(output);
 		y += block.getLayoutY();
 		y += block.getTranslateY();
 		return ShapeCenterCalc.outputShapeCenterY(y);

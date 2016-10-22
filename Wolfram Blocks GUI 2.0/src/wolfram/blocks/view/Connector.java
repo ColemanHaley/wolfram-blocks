@@ -29,6 +29,7 @@ public class Connector extends Line {
 				}
 			}
 		});
+		System.out.println(origin.getXCenter());
 		startXProperty().bind(origin.getXCenter());
 		startYProperty().bind(origin.getYCenter());
 	}
