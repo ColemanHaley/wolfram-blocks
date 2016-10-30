@@ -19,17 +19,20 @@ public class Connector extends Line {
 	}
 	
 	private void initialize(OutputNodeView origin) {
-		this.addEventHandler(MouseEvent.MOUSE_DRAGGED, new EventHandler<MouseEvent>() {
-			public void handle(final MouseEvent mouseEvent) {
-				if(locked==false){
-					endPointX.set(mouseEvent.getX());
-					endXProperty().bind(endPointX);
-					endPointY.set(mouseEvent.getY());
-					endYProperty().bind(endPointY);
-				}
-			}
-		});
-		System.out.println(origin.getXCenter());
+		endXProperty().bind(endPointX);
+		endYProperty().bind(endPointY);
+//		this.addEventFilter(MouseEvent.MOUSE_MOVED, new EventHandler<MouseEvent>() {
+//			public void handle(final MouseEvent mouseEvent) {
+//				System.out.println("test");
+//				if(locked==false){
+//					System.out.println(mouseEvent.getX());
+//					endPointX.set(mouseEvent.getX());
+//					
+//					endPointY.set(mouseEvent.getY());
+//					
+//				}
+//			}
+//		});
 		startXProperty().bind(origin.getXCenter());
 		startYProperty().bind(origin.getYCenter());
 	}
@@ -37,4 +40,18 @@ public class Connector extends Line {
 	private void destroy(){
 		
 	}
+	
+	public void setEndPointX(double x){
+		endPointX.set(x);
+	}
+	
+	public void setEndPointY(double y){
+		endPointY.set(y);
+	}
+	
+	public boolean isLocked(){
+		return locked;
+	}
+	
+	
 }

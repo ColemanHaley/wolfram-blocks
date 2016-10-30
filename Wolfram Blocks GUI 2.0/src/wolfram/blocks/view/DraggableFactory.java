@@ -17,11 +17,12 @@ public class DraggableFactory {
     public static Node makeDraggable(final Node node, RightPaneController ctrl) {
         final DragContext dragContext = new DragContext();
         final Group wrapGroup = new Group(node);
-        wrapGroup.addEventHandler(
+        wrapGroup.addEventFilter(
                 MouseEvent.MOUSE_PRESSED,
                 new EventHandler<MouseEvent>() {
                     public void handle(final MouseEvent mouseEvent) {
                     		wrapGroup.toFront();
+                    		
                     	if(ctrl.inConnectMode().getValue() == false) {
                             dragContext.mouseAnchorX = mouseEvent.getX();
                             dragContext.mouseAnchorY = mouseEvent.getY();
@@ -34,7 +35,7 @@ public class DraggableFactory {
                     }
                 });
 
-        wrapGroup.addEventHandler(
+        wrapGroup.addEventFilter(
                 MouseEvent.MOUSE_DRAGGED,
                 new EventHandler<MouseEvent>() {
                     public void handle(final MouseEvent mouseEvent) {

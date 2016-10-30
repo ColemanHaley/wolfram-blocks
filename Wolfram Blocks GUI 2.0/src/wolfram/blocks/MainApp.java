@@ -1,22 +1,32 @@
 package wolfram.blocks;
 
 import java.io.IOException;
-
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundFill;
 import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.CornerRadii;
+import javafx.scene.layout.Pane;
+import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import wolfram.blocks.model.BlockFactory;
+import wolfram.blocks.util.HandleConnectors;
 import wolfram.blocks.view.BlockController;
+import wolfram.blocks.view.Connector;
 import wolfram.blocks.view.InputNode;
-import wolfram.blocks.view.OutputNodeAnchor;
 import wolfram.blocks.view.OutputNodeView;
 import wolfram.blocks.view.RightPaneController;
+import javafx.scene.input.MouseEvent;
+import javafx.event.EventHandler;
 
+//TODO: Stop draggability when making a connection
+//TODO: Add arrowheads
 public class MainApp extends Application {
 	
 	private Stage primaryStage;
@@ -24,6 +34,7 @@ public class MainApp extends Application {
 	private double numBlocks = 0; //Total number of blocks currently existing
 	private AnchorPane testBlock;
 	private BlockController newController;
+	private RightPaneController rightPaneController;
 	
     public static void main(String[] args) 
     {
@@ -38,7 +49,7 @@ public class MainApp extends Application {
         
         initRootLayout(); //Make the window
         showRightPane(); //Make the menu
-        showBlockArea(); //Make the main block stage
+        showBlocksandConnectors();
     }
     
     public void initRootLayout() {
@@ -56,28 +67,64 @@ public class MainApp extends Application {
 		}
 	}
     
-	public void showBlockArea() {
+	private AnchorPane showBlockArea() {
+		AnchorPane blockArea =  null;
 		try {
 			FXMLLoader loader = new FXMLLoader();
 			loader.setLocation(MainApp.class.getResource("view/BlockAnchorPane.fxml"));
-			AnchorPane personOverview = (AnchorPane) loader.load();
-			
-			rootLayout.setCenter(personOverview);
+			blockArea = (AnchorPane) loader.load();
+			return (AnchorPane) blockArea;
 			
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+		
+		return blockArea;
 	}
     
+	private AnchorPane showConnectorLayer() {
+		AnchorPane conLayer = null;
+		try {
+			FXMLLoader loader = new FXMLLoader();
+			loader.setLocation(MainApp.class.getResource("view/BlockAnchorPane.fxml"));
+			conLayer = (AnchorPane) loader.load();
+			conLayer.setMouseTransparent(true); //This is sketchy hacky
+			//Background color = new Background(new BackgroundFill(Color.DARKMAGENTA, CornerRadii.EMPTY, Insets.EMPTY));
+			//conLayer.setBackground(color);
+			return conLayer;
+			
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return conLayer;
+	}
+	
+	public void showBlocksandConnectors(){
+		AnchorPane blockConnectors = new AnchorPane();
+		AnchorPane blockArea = showBlockArea();
+		AnchorPane conLayer = showConnectorLayer();
+		
+		blockConnectors.getChildren().addAll(blockArea, conLayer);
+		HandleConnectors.setUnboundEndpoint(blockArea, conLayer); //sets any unbound end point to the current mouse location
+		conLayer.toFront();	
+		conLayer.prefWidthProperty().bind(blockConnectors.widthProperty());
+		conLayer.prefHeightProperty().bind(blockConnectors.heightProperty());
+		blockArea.prefWidthProperty().bind(blockConnectors.widthProperty());
+		blockArea.prefHeightProperty().bind(blockConnectors.heightProperty());
+		rootLayout.setCenter(blockConnectors);
+		
+	}
+	
 	public void createBlock() {
 		try {
 			FXMLLoader loader = new FXMLLoader();
 			loader.setLocation(MainApp.class.getResource("view/Block.fxml"));
 			AnchorPane block = (AnchorPane) loader.load();
-			AnchorPane blockArea = ((AnchorPane)rootLayout.getCenter());
+			AnchorPane blockArea = (AnchorPane) ((AnchorPane)rootLayout.getCenter()).getChildren().get(0);
 			
 			blockArea.getChildren().addAll(block);
-			block.relocate(100+numBlocks*2, 50+numBlocks*2);
+			
+			block.relocate(100+numBlocks*2, 50+numBlocks*2); //TODO: Replace this with logical placement
 			AnchorPane.setTopAnchor(block, numBlocks*100);
 			numBlocks++;
 			testBlock = block;
@@ -95,8 +142,8 @@ public class MainApp extends Application {
 			AnchorPane rightPane = (AnchorPane) loader.load();
 			
 			rootLayout.setRight(rightPane);
-			RightPaneController controller = loader.getController();
-			controller.setMainApp(this);
+			rightPaneController = loader.getController();
+			rightPaneController.setMainApp(this);
 			
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -119,7 +166,16 @@ public class MainApp extends Application {
 		return newController;
 	}
 	
+	public RightPaneController getRPController(){
+		return rightPaneController;
+	}
 	public void addBlock(Node block) {
-		((AnchorPane)rootLayout.getCenter()).getChildren().addAll(block);
+		AnchorPane blockArea = ((AnchorPane) ((AnchorPane) rootLayout.getCenter()).getChildren().get(0));
+		blockArea.getChildren().addAll(block);
+	}
+	
+	public void addConnector(Node connector){
+		AnchorPane conLayer = ((AnchorPane) ((AnchorPane) rootLayout.getCenter()).getChildren().get(1));
+		conLayer.getChildren().addAll(connector);
 	}
 }

@@ -46,6 +46,10 @@ public class RightPaneController {
 		}
 	}
 	
+	public void setConnectMode(boolean val){
+		connectorModeActiveProperty.set(val);
+	}
+	
 	public BooleanProperty inConnectMode() {
 		return connectorModeActiveProperty;
 	}

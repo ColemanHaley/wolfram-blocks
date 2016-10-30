@@ -45,12 +45,12 @@ public class OutputNodeView extends Group {
 	}
 	
 	private void initialize() {
-		this.addEventHandler(MouseEvent.MOUSE_PRESSED, new EventHandler<MouseEvent>() {
+		this.addEventFilter(MouseEvent.MOUSE_PRESSED, new EventHandler<MouseEvent>() {
 			public void handle(final MouseEvent mouseEvent) {
 				mouseClicked = true;
-				mainApp.addBlock(new Connector(prayer));
-				System.out.println(xCenter);
-			}
+				mainApp.addConnector(new Connector(prayer));
+				mainApp.getRPController().setConnectMode(true);
+				}		
 		});
 	}
 	

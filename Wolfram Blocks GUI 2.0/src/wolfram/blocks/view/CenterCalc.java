@@ -8,7 +8,7 @@ public class CenterCalc {
 	
 	public static double outputCenterX(Node output) {
 		double x = 0;
-		Node block = output.getParent().getParent();
+		Node block = output.getParent();
 	
 		x += block.getLayoutX();
 		x += block.getTranslateX();
@@ -18,7 +18,7 @@ public class CenterCalc {
 	}
 	public static double outputCenterY(Node output) {
 		double y = 0;
-		Node block = output.getParent().getParent();
+		Node block = output.getParent();
 		
 		y += AnchorPane.getTopAnchor(output);
 		y += block.getLayoutY();
