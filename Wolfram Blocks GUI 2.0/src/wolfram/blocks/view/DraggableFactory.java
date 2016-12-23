@@ -23,7 +23,7 @@ public class DraggableFactory {
                     public void handle(final MouseEvent mouseEvent) {
                     		wrapGroup.toFront();
                     		
-                    	if(ctrl.inConnectMode().getValue() == false) {
+                    	if(ctrl.inConnectMode() == false) {
                             dragContext.mouseAnchorX = mouseEvent.getX();
                             dragContext.mouseAnchorY = mouseEvent.getY();
                             dragContext.initialTranslateX =
@@ -39,7 +39,7 @@ public class DraggableFactory {
                 MouseEvent.MOUSE_DRAGGED,
                 new EventHandler<MouseEvent>() {
                     public void handle(final MouseEvent mouseEvent) {
-                          if(ctrl.inConnectMode().getValue() == false){  
+                          if(ctrl.inConnectMode() == false){  
                     		node.setTranslateX(
                                     dragContext.initialTranslateX
                                         + mouseEvent.getX()

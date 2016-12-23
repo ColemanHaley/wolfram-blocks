@@ -47,10 +47,13 @@ public class OutputNodeView extends Group {
 	private void initialize() {
 		this.addEventFilter(MouseEvent.MOUSE_PRESSED, new EventHandler<MouseEvent>() {
 			public void handle(final MouseEvent mouseEvent) {
-				mouseClicked = true;
-				mainApp.addConnector(new Connector(prayer));
-				mainApp.getRPController().setConnectMode(true);
-				}		
+					mouseClicked = true;
+					Connector newConnector = new Connector(prayer);
+					mainApp.addConnector(newConnector);
+					newConnector.setEndPointX(mouseEvent.getSceneX() + 10);
+					newConnector.setEndPointY(mouseEvent.getSceneY()- 40);
+					mainApp.getRPController().setConnectMode(true);	
+			}		
 		});
 	}
 	

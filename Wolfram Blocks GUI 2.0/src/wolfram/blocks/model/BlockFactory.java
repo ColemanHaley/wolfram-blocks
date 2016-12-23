@@ -8,14 +8,14 @@ public class BlockFactory {
 		switch (type) {
 			case "String":
 				fn = Function.STRING;
-				expr = new Expr("String", fn);
 				break;
 			case "Style":
 				fn = Function.STYLE;
-				expr = new Expr("Style", fn);
+				break;
 			case "List":
 				fn = Function.MLIST;
-				expr = new Expr("List", fn);
+				break;
+			expr = new Expr(t, fn);	
 		}
 		if (fn != null && expr != null) {
 			
@@ -31,6 +31,7 @@ public class BlockFactory {
 					expr.addInput(i);
 				}
 			}
+			T p = new Tuple()
 		
 			return expr;
 			

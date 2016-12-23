@@ -3,7 +3,9 @@ package wolfram.blocks.view;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.event.EventHandler;
+import javafx.scene.Group;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.shape.Line;
 
 public class Connector extends Line {
@@ -11,7 +13,8 @@ public class Connector extends Line {
 	DoubleProperty endPointX = new SimpleDoubleProperty(this, "mousePosX");
 	DoubleProperty endPointY = new SimpleDoubleProperty(this, "mousePosY");
 	boolean locked = false;
-	
+	OutputNodeView origin;
+	InputNode endNode;
 	
 	public Connector(OutputNodeView origin) {
 		super();
@@ -19,6 +22,8 @@ public class Connector extends Line {
 	}
 	
 	private void initialize(OutputNodeView origin) {
+		this.origin = origin;
+		this.setStrokeWidth(1.5);
 		endXProperty().bind(endPointX);
 		endYProperty().bind(endPointY);
 //		this.addEventFilter(MouseEvent.MOUSE_MOVED, new EventHandler<MouseEvent>() {
@@ -37,10 +42,6 @@ public class Connector extends Line {
 		startYProperty().bind(origin.getYCenter());
 	}
 	
-	private void destroy(){
-		
-	}
-	
 	public void setEndPointX(double x){
 		endPointX.set(x);
 	}
@@ -53,5 +54,18 @@ public class Connector extends Line {
 		return locked;
 	}
 	
+	public void setEndNode(InputNode endNode){
+		if(!this.locked){
+			this.endNode = endNode;
+			AnchorPane endNodeBlock = (AnchorPane) endNode.getParent().getParent();
+			this.locked = true;
+//			endPointX = endNode.getXCenter();
+//			endPointX.add(endNodeBlock.getLayoutX() + endNodeBlock.getTranslateX());
+//			endPointY = endNode.getYCenter();
+//			endPointY.add(endNodeBlock.getLayoutY() + endNodeBlock.getTranslateY());
+//			endXProperty().bind(endPointX);
+//			endYProperty().bind(endPointY);
+		}
+	}
 	
 }

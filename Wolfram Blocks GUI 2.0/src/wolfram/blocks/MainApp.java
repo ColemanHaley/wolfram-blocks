@@ -25,7 +25,6 @@ import wolfram.blocks.view.RightPaneController;
 import javafx.scene.input.MouseEvent;
 import javafx.event.EventHandler;
 
-//TODO: Stop draggability when making a connection
 //TODO: Add arrowheads
 public class MainApp extends Application {
 	
@@ -105,7 +104,7 @@ public class MainApp extends Application {
 		AnchorPane conLayer = showConnectorLayer();
 		
 		blockConnectors.getChildren().addAll(blockArea, conLayer);
-		HandleConnectors.setUnboundEndpoint(blockArea, conLayer); //sets any unbound end point to the current mouse location
+		HandleConnectors.handleUnboundConnectors(blockArea, conLayer, rightPaneController); //sets any unbound end point to the current mouse location
 		conLayer.toFront();	
 		conLayer.prefWidthProperty().bind(blockConnectors.widthProperty());
 		conLayer.prefHeightProperty().bind(blockConnectors.heightProperty());
@@ -169,6 +168,7 @@ public class MainApp extends Application {
 	public RightPaneController getRPController(){
 		return rightPaneController;
 	}
+	
 	public void addBlock(Node block) {
 		AnchorPane blockArea = ((AnchorPane) ((AnchorPane) rootLayout.getCenter()).getChildren().get(0));
 		blockArea.getChildren().addAll(block);

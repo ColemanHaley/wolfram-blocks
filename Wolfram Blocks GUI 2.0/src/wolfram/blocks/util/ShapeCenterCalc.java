@@ -2,11 +2,11 @@ package wolfram.blocks.util;
 
 public class ShapeCenterCalc {
 	public static double outputShapeCenterX(double x) {
-		return x+5;
+		return x+15;
 	}
 	
 	public static double outputShapeCenterY(double y) {
-		return y+10;
+		return y+20;
 	}
 	
 	public static double inputShapeCenterX(double x) {

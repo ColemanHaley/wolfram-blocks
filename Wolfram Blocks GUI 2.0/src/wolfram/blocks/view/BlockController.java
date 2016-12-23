@@ -48,12 +48,13 @@ public class BlockController {
 		if(blockData.hasOutputBool()){
 			createOutput();
 		}
+		refreshInOutCenter();
 	}
 	
 	private void inputPopulate() {
 			double[] layout = new double[blockData.getInputs().size()];
 			for(int i = 0; i<blockData.getInputs().size(); i++) {
-				InputNode input = new InputNode();
+				InputNode input = new InputNode(mainApp.getRPController(), blockData.getInputs().get(i).getAttributes());
 				inputs.getChildren().addAll(input);
 				layout[i] = ((i+1)*200)/(layout.length+1);
 				
@@ -90,9 +91,9 @@ public class BlockController {
 	private void createOutput() {
 			output = new OutputNodeView();
 			thisBlock.getChildren().addAll(output);
-			//System.out.println(thisBlock.getChildren());
 			AnchorPane.setLeftAnchor(output, 160.0);
 			AnchorPane.setTopAnchor(output, (200/2)-25.0);
+			
 			output.setMainApp(mainApp);
 	}
 	

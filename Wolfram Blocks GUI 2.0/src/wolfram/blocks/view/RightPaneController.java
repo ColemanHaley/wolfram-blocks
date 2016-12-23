@@ -12,6 +12,7 @@ import javafx.scene.control.CheckBox;
 public class RightPaneController {
 
 	 private MainApp mainApp;
+	 private InputNode currentEndnode = null;
 	 private final BooleanProperty connectorModeActiveProperty =
 	            new SimpleBooleanProperty(this, "connectorModeActive", false);
 	 
@@ -20,6 +21,14 @@ public class RightPaneController {
 	 
 	 public void setMainApp(MainApp mainApp) {
 		 this.mainApp = mainApp;
+	 }
+	 
+	 public void sendConnectSignal(InputNode endNode){
+		 currentEndnode = endNode;
+	 }
+	 
+	 public InputNode getConnectSignal(){
+		 return currentEndnode;
 	 }
 	 
 	@FXML
@@ -50,7 +59,7 @@ public class RightPaneController {
 		connectorModeActiveProperty.set(val);
 	}
 	
-	public BooleanProperty inConnectMode() {
-		return connectorModeActiveProperty;
+	public boolean inConnectMode() {
+		return connectorModeActiveProperty.getValue();
 	}
 }
