@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.Group?>
+<?import javafx.scene.shape.Line?>
+
+
+<Group xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8.0.60">
+   <children>
+      <Line endX="100.0" layoutX="-101.0" layoutY="-124.0" startX="-100.0" />
+   </children>
+</Group>
