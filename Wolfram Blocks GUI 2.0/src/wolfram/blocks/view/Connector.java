@@ -14,7 +14,7 @@ public class Connector extends Line {
 	DoubleProperty endPointY = new SimpleDoubleProperty(this, "mousePosY");
 	boolean locked = false;
 	OutputNodeView origin;
-	InputNodeView endNode;
+	SimpleInputNodeView endNode;
 	
 	public Connector(OutputNodeView origin) {
 		super();
@@ -54,7 +54,7 @@ public class Connector extends Line {
 		return locked;
 	}
 	
-	public void setEndNode(InputNodeView endNode){
+	public void setEndNode(SimpleInputNodeView endNode){
 		if(!this.locked){
 			//TODO prevent backhooking (check if same block-parent)
 			this.endNode = endNode;

@@ -62,7 +62,7 @@ public class WolframModel {
 			com.wolfram.jlink.Expr headExpr = ml.getExpr();
 			ArrayList<com.wolfram.jlink.Expr> exprs = new ArrayList<com.wolfram.jlink.Expr>();
 			for(InputNode in : head.getInputs()){
-				for(OutputNode out : in.returnArgs()){
+				for(OutputNode out : in.getArgs()){
 					System.out.println("Y tho\n");
 					exprs.add(toMExpr(out.getParent()));
 					
@@ -87,7 +87,7 @@ public class WolframModel {
 			//System.out.println(headExpr.toString());
 			ArrayList<com.wolfram.jlink.Expr> exprs = new ArrayList<com.wolfram.jlink.Expr>();
 			for(InputNode in : head.getInputs()){
-				for(OutputNode out : in.returnArgs()){
+				for(OutputNode out : in.getArgs()){
 					exprs.add(toMExpr(out.getParent()));
 					System.out.println("Y tho\n");
 				}

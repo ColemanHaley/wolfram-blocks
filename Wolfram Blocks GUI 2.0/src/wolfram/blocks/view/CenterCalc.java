@@ -29,7 +29,7 @@ public class CenterCalc {
 	public static double inputCenterX(Node input) {
 		double x = 0;
 		Node allInputs = input.getParent();
-		Block block = ((InputNodeView) input).getBlock();
+		Block block = ((SimpleInputNodeView) input).getBlock();
 		
 		//x += allInputs.getLayoutX();
 		x += block.getTranslateX();
@@ -44,7 +44,7 @@ public class CenterCalc {
 	public static double inputCenterY(Node input) {
 		double y = 0;
 		Node allInputs = input.getParent();
-		Block block = ((InputNodeView) input).getBlock();
+		Block block = ((SimpleInputNodeView) input).getBlock();
 		
 		//y += allInputs.getLayoutY();
 		y += block.getTranslateY();

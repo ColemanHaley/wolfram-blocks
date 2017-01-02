@@ -8,7 +8,7 @@ import javafx.scene.input.MouseDragEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import wolfram.blocks.view.Connector;
-import wolfram.blocks.view.InputNodeView;
+import wolfram.blocks.view.SimpleInputNodeView;
 import wolfram.blocks.view.RightPaneController;
 
 public class HandleConnectors {
@@ -49,7 +49,7 @@ public class HandleConnectors {
                     public void handle(final MouseEvent mouseEvent) { 
                     	
                     	rPC.setConnectMode(false);
-                    	InputNodeView endNode = rPC.getConnectSignal();
+                    	SimpleInputNodeView endNode = rPC.getConnectSignal();
                     	if(endNode == null){
                     		ArrayList<Node> toRemove = new ArrayList<Node>();
                     		for( Node n : connectorLayer.getChildren()){

@@ -2,7 +2,7 @@ package wolfram.blocks.model;
 
 import java.util.ArrayList;
 
-public class OutputNode {
+public class OutputNode implements ONode {
 	public ArrayList<InputNode> args;
 	public Expr parent;
 	public OutputNode (Expr parent) {
@@ -12,15 +12,23 @@ public class OutputNode {
 		args = initArgs;
 		this.parent = parent;
 	}
+	
 	public ArrayList<InputNode> getArgs () {
 		return args;
 	}
+
+	
 	public void appendArgs (InputNode newArg) {
 		args.add(newArg);
 	}
+	
+	
 	public void appendArgs (ArrayList<InputNode> newArgs) {
 		args.addAll(newArgs);
 	}
+
+	
 	public Expr getParent() {return parent;}
+
 	
 }

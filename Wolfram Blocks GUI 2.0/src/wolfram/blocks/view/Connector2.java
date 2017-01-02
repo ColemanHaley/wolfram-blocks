@@ -15,7 +15,7 @@ public class Connector2 extends Group {
 	boolean locked = false;
 	OutputNodeView origin;
 	Line line;
-	InputNodeView endNode;
+	SimpleInputNodeView endNode;
 	
 	public Connector2(OutputNodeView origin) {
 		super();
@@ -56,7 +56,7 @@ public class Connector2 extends Group {
 		return locked;
 	}
 	
-	public void setEndNode(InputNodeView endNode){
+	public void setEndNode(SimpleInputNodeView endNode){
 		if(!this.locked){
 			//TODO prevent backhooking (check if same block-parent)
 			this.endNode = endNode;

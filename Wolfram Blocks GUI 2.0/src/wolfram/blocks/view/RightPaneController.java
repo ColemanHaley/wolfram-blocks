@@ -17,7 +17,7 @@ import javafx.scene.control.CheckBox;
 public class RightPaneController {
 
 	 private MainApp mainApp;
-	 private InputNodeView currentEndnode = null;
+	 private SimpleInputNodeView currentEndnode = null;
 	 private final BooleanProperty connectorModeActiveProperty =
 	            new SimpleBooleanProperty(this, "connectorModeActive", false);
 	 
@@ -31,11 +31,11 @@ public class RightPaneController {
 		 this.mainApp = mainApp;
 	 }
 	 //these guys are a big deal and super sketch
-	 public void sendConnectSignal(InputNodeView endNode){
+	 public void sendConnectSignal(SimpleInputNodeView endNode){
 		 currentEndnode = endNode;
 	 }
 	 
-	 public InputNodeView getConnectSignal(){
+	 public SimpleInputNodeView getConnectSignal(){
 		 return currentEndnode;
 	 }
 

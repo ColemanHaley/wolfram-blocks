@@ -78,7 +78,7 @@ public class Block extends AnchorPane {
 	private void inputPopulate() {
 			double[] layout = new double[blockData.getInputs().size()];
 			for(int i = 0; i<blockData.getInputs().size(); i++) {
-				InputNodeView input = new InputNodeView(mainApp.getRPController(), blockData.getInputs().get(i), this);
+				SimpleInputNodeView input = new SimpleInputNodeView(mainApp.getRPController(), blockData.getInputs().get(i), this);
 				inputs.getChildren().addAll(input);
 				layout[i] = ((i+1)*200)/(layout.length+1);
 				
@@ -95,16 +95,16 @@ public class Block extends AnchorPane {
 			AnchorPane.setBottomAnchor(inputs, layout[0]-12.0);
 		
 		for(Node input : inputs.getChildren() ) {
-			((InputNodeView)input).setXCenter(CenterCalc.inputCenterX(input));
-			((InputNodeView)input).setYCenter(CenterCalc.inputCenterY(input));	
+			((SimpleInputNodeView)input).setXCenter(CenterCalc.inputCenterX(input));
+			((SimpleInputNodeView)input).setYCenter(CenterCalc.inputCenterY(input));	
 		}
 		
 	} 	
 	
 	private void refreshInOutCenter() {
 		for(Node input : inputs.getChildren() ) {
-			((InputNodeView)input).setXCenter(CenterCalc.inputCenterX(input));
-			((InputNodeView)input).setYCenter(CenterCalc.inputCenterY(input));	
+			((SimpleInputNodeView)input).setXCenter(CenterCalc.inputCenterX(input));
+			((SimpleInputNodeView)input).setYCenter(CenterCalc.inputCenterY(input));	
 		}	
 		if(output != null) {
 			output.setXCenter(CenterCalc.outputCenterX(output));

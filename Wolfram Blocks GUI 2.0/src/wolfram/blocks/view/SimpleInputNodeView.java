@@ -19,7 +19,7 @@ import wolfram.blocks.model.InputAttribute;
 import wolfram.blocks.model.InputNode;
 import wolfram.blocks.model.OutputNode;
 
-public class InputNodeView extends AnchorPane {
+public class SimpleInputNodeView extends AnchorPane implements INode {
 	
 	private final DoubleProperty xCenter = new SimpleDoubleProperty(this, "inputXCenter");
 	private final DoubleProperty yCenter = new SimpleDoubleProperty(this, "outputYCenter");
@@ -29,7 +29,7 @@ public class InputNodeView extends AnchorPane {
 	private Block parent;
 	private boolean inputFieldCreated = false;
 	
-	public InputNodeView(RightPaneController rPC, InputNode thisInput, Block block) {
+	public SimpleInputNodeView(RightPaneController rPC, InputNode thisInput, Block block) {
 		super();
 		this.setPrefSize(25.0, 24.0);
 		this.setBackground(new Background(new BackgroundFill(Color.BLACK, null, null)));
@@ -46,12 +46,13 @@ public class InputNodeView extends AnchorPane {
 		makeInputAttributes(attributes);
 		this.rPC = rPC;
 	}
+	
 	private void initialize(){
 		inputNode.addEventHandler(MouseDragEvent.MOUSE_DRAG_RELEASED, new EventHandler<MouseEvent>() {
 			public void handle(final MouseEvent mouseEvent) {
 				
 				if(rPC.inConnectMode()){
-					rPC.sendConnectSignal(InputNodeView.this);
+					rPC.sendConnectSignal(SimpleInputNodeView.this);
 				}
 			}
 		});
@@ -76,22 +77,50 @@ public class InputNodeView extends AnchorPane {
 		}
 	}
 	
+	/* (non-Javadoc)
+	 * @see wolfram.blocks.view.InputNode#setXCenter(double)
+	 */
+	@Override
 	public void setXCenter(double x) {xCenter.setValue(x);}
+	/* (non-Javadoc)
+	 * @see wolfram.blocks.view.InputNode#setYCenter(double)
+	 */
+	@Override
 	public void setYCenter(double y) {yCenter.setValue(y);}
 	
+	/* (non-Javadoc)
+	 * @see wolfram.blocks.view.InputNode#getXCenter()
+	 */
+	@Override
 	public DoubleProperty getXCenter() {return xCenter;}
+	/* (non-Javadoc)
+	 * @see wolfram.blocks.view.InputNode#getYCenter()
+	 */
+	@Override
 	public DoubleProperty getYCenter() {return yCenter;}
 	
+	/* (non-Javadoc)
+	 * @see wolfram.blocks.view.InputNode#getBlock()
+	 */
+	@Override
 	public Block getBlock() {return parent;}
 	private void createInputField() {
 		this.getChildren().addAll(new TextField());
 		inputFieldCreated = true;
 	}
+	/* (non-Javadoc)
+	 * @see wolfram.blocks.view.InputNode#addConnectedTo(wolfram.blocks.model.OutputNode)
+	 */
+	@Override
 	public void addConnectedTo(OutputNode originNode){
 		data.appendArgs(originNode);
 	}
 	 //Here we are with the getters and setters again :(
-	 public InputNode getData(){
+	 /* (non-Javadoc)
+	 * @see wolfram.blocks.view.InputNode#getData()
+	 */
+	@Override
+	public InputNode getData(){
 		 return this.data;
 	 }
 }

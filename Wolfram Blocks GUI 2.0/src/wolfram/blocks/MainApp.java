@@ -24,7 +24,7 @@ import javafx.stage.Stage;
 import wolfram.blocks.model.BlockFactory;
 import wolfram.blocks.util.HandleConnectors;
 import wolfram.blocks.view.Connector;
-import wolfram.blocks.view.InputNodeView;
+import wolfram.blocks.view.SimpleInputNodeView;
 import wolfram.blocks.view.OutputNodeView;
 import wolfram.blocks.view.RightPaneController;
 import javafx.scene.input.MouseEvent;
