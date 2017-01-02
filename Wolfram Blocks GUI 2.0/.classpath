@@ -4,5 +4,6 @@
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.8"/>
 	<classpathentry kind="con" path="org.eclipse.fx.ide.jdt.core.JAVAFX_CONTAINER"/>
 	<classpathentry kind="lib" path="C:/Program Files (x86)/H2/bin/h2-1.4.193.jar"/>
+	<classpathentry kind="lib" path="C:/Program Files/Wolfram Research/Mathematica/10.3/SystemFiles/Links/JLink/JLink.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

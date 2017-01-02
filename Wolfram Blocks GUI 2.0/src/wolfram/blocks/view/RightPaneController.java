@@ -2,19 +2,27 @@ package wolfram.blocks.view;
 
 import wolfram.blocks.MainApp;
 import wolfram.blocks.model.BlockFactory;
+import wolfram.blocks.model.MultipleHeadException;
+import wolfram.blocks.model.WolframModel;
+
+import com.wolfram.jlink.KernelLink;
+
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.CheckBox;
 
-
+//TODO: Make this class more coherent
 public class RightPaneController {
 
 	 private MainApp mainApp;
-	 private InputNode currentEndnode = null;
+	 private InputNodeView currentEndnode = null;
 	 private final BooleanProperty connectorModeActiveProperty =
 	            new SimpleBooleanProperty(this, "connectorModeActive", false);
+	 
+	 private KernelLink ml = null; //TODO is this field necessary?
+	 private WolframModel model = null;
 	 
 	 @FXML 
 	 CheckBox chkConnect;
@@ -22,27 +30,27 @@ public class RightPaneController {
 	 public void setMainApp(MainApp mainApp) {
 		 this.mainApp = mainApp;
 	 }
-	 
-	 public void sendConnectSignal(InputNode endNode){
+	 //these guys are a big deal and super sketch
+	 public void sendConnectSignal(InputNodeView endNode){
 		 currentEndnode = endNode;
 	 }
 	 
-	 public InputNode getConnectSignal(){
+	 public InputNodeView getConnectSignal(){
 		 return currentEndnode;
 	 }
-	 
+
 	@FXML
 	private void handleNewString() {
-		mainApp.createBlock();
-		mainApp.getBlockController().setBlockData(BlockFactory.createBlockData("Style"));
-		mainApp.getBlockController().initializeBlock();
-		mainApp.addBlock((DraggableFactory.makeDraggable((Node)(mainApp.getBlock()), this)));
+		Block newBlock = mainApp.createBlock();
+		newBlock.setBlockData(BlockFactory.createBlockData("Style"));
+		newBlock.initializeBlock();
+		mainApp.addBlock((DraggableFactory.makeDraggable((Node)(newBlock), this)));
 	}
 	
 	@FXML
 	private void handleNewStyle() {
-		mainApp.createBlock();
-		mainApp.addBlock((DraggableFactory.makeDraggable((Node)(mainApp.getBlock()), this)));
+		Block newBlock = mainApp.createBlock();
+		mainApp.addBlock((DraggableFactory.makeDraggable((Node)(newBlock), this)));
 	}
 	
 	@FXML
@@ -55,6 +63,16 @@ public class RightPaneController {
 		}
 	}
 	
+	@FXML
+	private void handleRun(){
+		try {
+			model.buildModel(mainApp.getBlockArea());
+		} catch (MultipleHeadException e) {
+			// TODO Replace with real error
+			System.out.println("Error: too many head exprs");
+		}
+	}
+	
 	public void setConnectMode(boolean val){
 		connectorModeActiveProperty.set(val);
 	}
@@ -62,4 +80,6 @@ public class RightPaneController {
 	public boolean inConnectMode() {
 		return connectorModeActiveProperty.getValue();
 	}
+	
+	public void setMathLink(KernelLink ml){this.ml = ml; model = new WolframModel(ml);}
 }

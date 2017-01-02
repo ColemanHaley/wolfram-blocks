@@ -10,12 +10,16 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Polygon;
 import wolfram.blocks.MainApp;
+import wolfram.blocks.model.InputNode;
+import wolfram.blocks.model.OutputNode;
 
 public class OutputNodeView extends Group {
 	
 	private MainApp mainApp;
 	private boolean mouseClicked;
 	private OutputNodeView prayer;
+	private OutputNode data;
+	private Block parent;
 	
 	private final DoubleProperty xCenter = new SimpleDoubleProperty(this, "outputXCenter");
 	private final DoubleProperty yCenter = new SimpleDoubleProperty(this, "outputYCenter");
@@ -24,9 +28,10 @@ public class OutputNodeView extends Group {
 		this.mainApp = mainApp;
 	}
 	
-	public OutputNodeView() {
-		
+	public OutputNodeView(OutputNode thisOut, Block parent) {
 		super();
+		this.data = thisOut;
+		this.parent = parent;
 		Polygon outputNode = new Polygon();
         outputNode.getPoints().addAll(new Double[]{
         		  0.0,  -25.0,
@@ -48,13 +53,17 @@ public class OutputNodeView extends Group {
 		this.addEventFilter(MouseEvent.MOUSE_PRESSED, new EventHandler<MouseEvent>() {
 			public void handle(final MouseEvent mouseEvent) {
 					mouseClicked = true;
-					Connector newConnector = new Connector(prayer);
+					Connector newConnector = new Connector(prayer); //can't i just say "this"???
 					mainApp.addConnector(newConnector);
 					newConnector.setEndPointX(mouseEvent.getSceneX() + 10);
 					newConnector.setEndPointY(mouseEvent.getSceneY()- 40);
 					mainApp.getRPController().setConnectMode(true);	
 			}		
 		});
+	}
+	
+	public void addConnectedTo(InputNode endNode){
+		data.appendArgs(endNode);
 	}
 	
 	public void makefakethis() {
@@ -69,6 +78,10 @@ public class OutputNodeView extends Group {
 	
 	public String toString() {
 		return this.getChildren().get(0).toString();
+	}
+	
+	public OutputNode getData() {
+		return this.data;
 	}
 
 }

@@ -8,24 +8,25 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.shape.Line;
 
-public class Connector extends Line {
+public class Connector2 extends Group {
 	
 	DoubleProperty endPointX = new SimpleDoubleProperty(this, "mousePosX");
 	DoubleProperty endPointY = new SimpleDoubleProperty(this, "mousePosY");
 	boolean locked = false;
 	OutputNodeView origin;
+	Line line;
 	InputNodeView endNode;
 	
-	public Connector(OutputNodeView origin) {
+	public Connector2(OutputNodeView origin) {
 		super();
 		initialize(origin);
 	}
 	
 	private void initialize(OutputNodeView origin) {
 		this.origin = origin;
-		this.setStrokeWidth(1.5);
-		endXProperty().bind(endPointX);
-		endYProperty().bind(endPointY);
+		this.line.setStrokeWidth(1.5);
+		line.endXProperty().bind(endPointX);
+		line.endYProperty().bind(endPointY);
 //		this.addEventFilter(MouseEvent.MOUSE_MOVED, new EventHandler<MouseEvent>() {
 //			public void handle(final MouseEvent mouseEvent) {
 //				System.out.println("test");
@@ -38,8 +39,9 @@ public class Connector extends Line {
 //				}
 //			}
 //		});
-		startXProperty().bind(origin.getXCenter());
-		startYProperty().bind(origin.getYCenter());
+		line.startXProperty().bind(origin.getXCenter());
+		line.startYProperty().bind(origin.getYCenter());
+		this.getChildren().add(line);
 	}
 	
 	public void setEndPointX(double x){
@@ -66,8 +68,8 @@ public class Connector extends Line {
 			endPointX.add(endNodeBlock.getLayoutX() + endNodeBlock.getTranslateX());
 			endPointY = endNode.getYCenter();
 			endPointY.add(endNodeBlock.getLayoutY() + endNodeBlock.getTranslateY());
-			endXProperty().bind(endPointX);
-			endYProperty().bind(endPointY);
+			line.endXProperty().bind(endPointX);
+			line.endYProperty().bind(endPointY);
 		}
 	}
 	

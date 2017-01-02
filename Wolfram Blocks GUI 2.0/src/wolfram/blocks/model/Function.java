@@ -56,8 +56,10 @@ public enum Function {
 							InputAttribute.LONGINPUTFIELD);
 					
 					InputNode styleExprInput = new InputNode("", new ArrayList<OutputNode>(), attr);
+					InputNode stringInput2 = new InputNode("", new ArrayList<OutputNode>(), attr);
 					//System.out.println(styleExprInput.getAttributes().size());
 					inputs.add(styleExprInput);
+					inputs.add(stringInput2);
 					//System.out.println(styleExprInput.getAttributes().size());
 					break;
 				case "String":
@@ -84,3 +86,4 @@ public enum Function {
 	
 	public ArrayList<InputNode> getInputs() {return inputs;}
 }
+

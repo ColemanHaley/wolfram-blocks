@@ -4,7 +4,6 @@ import java.util.ArrayList;
 
 public class InputNode {
 	private ArrayList<OutputNode> args;
-	private long id;
 	
 	private String label;
 	private ArrayList<InputAttribute> attributes;
@@ -40,11 +39,5 @@ public class InputNode {
 		return label;
 	}
 	
-	//id functions
-	public void setID (long newID) {
-		id = newID;
-	}
-	public long getID () {
-		return id;
-	}
+	
 }

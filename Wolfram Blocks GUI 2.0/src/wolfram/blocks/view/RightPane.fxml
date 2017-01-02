@@ -10,5 +10,6 @@
       <Button layoutX="63.0" layoutY="125.0" mnemonicParsing="false" onAction="#handleNewString" text="New String" />
       <Button layoutX="70.0" layoutY="184.0" mnemonicParsing="false" text="New List" />
       <CheckBox fx:id="chkConnect" layoutX="45.0" layoutY="236.0" mnemonicParsing="false" onAction="#handleCheckConnector" text="Connector Mode" textFill="WHITE" />
+      <Button layoutX="76.0" layoutY="24.0" mnemonicParsing="false" onAction="#handleRun" text="Run" />
    </children>
 </AnchorPane>

@@ -8,25 +8,35 @@ import javafx.beans.property.SimpleDoubleProperty;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundFill;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseDragEvent;
 import javafx.scene.input.MouseEvent;
 import wolfram.blocks.model.InputAttribute;
+import wolfram.blocks.model.InputNode;
+import wolfram.blocks.model.OutputNode;
 
-public class InputNode extends AnchorPane {
+public class InputNodeView extends AnchorPane {
 	
 	private final DoubleProperty xCenter = new SimpleDoubleProperty(this, "inputXCenter");
 	private final DoubleProperty yCenter = new SimpleDoubleProperty(this, "outputYCenter");
 	private RightPaneController rPC;
+	private InputNode data;
 	private Circle inputNode;
+	private Block parent;
 	private boolean inputFieldCreated = false;
 	
-	public InputNode(RightPaneController rPC, ArrayList<InputAttribute> attributes) {
+	public InputNodeView(RightPaneController rPC, InputNode thisInput, Block block) {
 		super();
 		this.setPrefSize(25.0, 24.0);
+		this.setBackground(new Background(new BackgroundFill(Color.BLACK, null, null)));
 		this.setMaxWidth(124.0);
+		this.parent = block;
+		this.data = thisInput;
+		ArrayList<InputAttribute> attributes = thisInput.getAttributes();
 		inputNode = new Circle(12.0);
 		inputNode.setLayoutX(12.0);
 		inputNode.setLayoutY(13.0);
@@ -41,7 +51,7 @@ public class InputNode extends AnchorPane {
 			public void handle(final MouseEvent mouseEvent) {
 				
 				if(rPC.inConnectMode()){
-					rPC.sendConnectSignal(InputNode.this);
+					rPC.sendConnectSignal(InputNodeView.this);
 				}
 			}
 		});
@@ -72,9 +82,16 @@ public class InputNode extends AnchorPane {
 	public DoubleProperty getXCenter() {return xCenter;}
 	public DoubleProperty getYCenter() {return yCenter;}
 	
-	
+	public Block getBlock() {return parent;}
 	private void createInputField() {
 		this.getChildren().addAll(new TextField());
 		inputFieldCreated = true;
 	}
+	public void addConnectedTo(OutputNode originNode){
+		data.appendArgs(originNode);
+	}
+	 //Here we are with the getters and setters again :(
+	 public InputNode getData(){
+		 return this.data;
+	 }
 }
