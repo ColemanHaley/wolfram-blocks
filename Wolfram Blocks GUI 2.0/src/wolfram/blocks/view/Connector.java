@@ -54,6 +54,8 @@ public class Connector extends Line {
 		return locked;
 	}
 	
+	public OutputNodeView getOrigin(){return origin;}
+	
 	public void setEndNode(SimpleInputNodeView endNode){
 		if(!this.locked){
 			//TODO prevent backhooking (check if same block-parent)
@@ -70,5 +72,12 @@ public class Connector extends Line {
 			endYProperty().bind(endPointY);
 		}
 	}
+	
+	public void detatch(SimpleInputNodeView endNode){
+		locked = false;
+		origin.disconnect(endNode.getData());
+		endNode.disconnect(origin.getData());
+	}
+	
 	
 }

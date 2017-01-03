@@ -26,6 +26,7 @@ public class SimpleInputNodeView extends AnchorPane implements InputNodeView {
 	private InputNode data;
 	private Circle inputNode;
 	private Block parent;
+	private boolean connected = false;
 	
 	public SimpleInputNodeView(InputNode thisInput, Block block) {
 		super();
@@ -40,8 +41,11 @@ public class SimpleInputNodeView extends AnchorPane implements InputNodeView {
 	
 	private void initialize(){
 		inputNode.addEventHandler(MouseDragEvent.MOUSE_DRAG_RELEASED, 
-			event->{if(ConnectCommunicator.inConnectMode()) 
-						ConnectCommunicator.sendConnectSignal(this);}
+			event->{if(ConnectCommunicator.inConnectMode() &&connected==false){ 
+						ConnectCommunicator.sendConnectSignal(this);connected=true;}}
+		);
+		inputNode.addEventHandler(MouseEvent.MOUSE_PRESSED,
+				event->ConnectCommunicator.setConnectMode(true)
 		);
 	}
 	
@@ -67,6 +71,8 @@ public class SimpleInputNodeView extends AnchorPane implements InputNodeView {
 	@Override
 	public InputNode getData(){return this.data;}
 	
+	public void disconnect(OutputNode origin){data.deleteArg(origin);}
+	
 	private void draw(){
 		this.setPrefSize(25.0, 24.0);
 		this.setBackground(new Background(new BackgroundFill(Color.BLACK, null, null)));
@@ -78,4 +84,5 @@ public class SimpleInputNodeView extends AnchorPane implements InputNodeView {
 		this.getChildren().add(inputNode);
 	}
 
+	public boolean isEndNode(){return connected;}
 }

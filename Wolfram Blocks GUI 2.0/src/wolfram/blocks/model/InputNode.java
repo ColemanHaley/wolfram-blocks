@@ -43,6 +43,8 @@ public class InputNode implements INode {
 		args.addAll(newArgs);
 	}
 
+	public void deleteArg(OutputNode toDelete){args.remove(toDelete);}
+	
 	@Override
 	public String getLabel(){
 		return label;

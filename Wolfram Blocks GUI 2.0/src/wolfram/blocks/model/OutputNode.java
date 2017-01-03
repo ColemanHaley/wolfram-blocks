@@ -22,6 +22,7 @@ public class OutputNode {
 		args.add(newArg);
 	}
 	
+	public void deleteArg(InputNode toDelete){args.remove(toDelete);}
 	
 	public void appendArgs (ArrayList<InputNode> newArgs) {
 		args.addAll(newArgs);

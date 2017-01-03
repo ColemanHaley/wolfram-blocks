@@ -66,6 +66,8 @@ public class OutputNodeView extends Group {
 		data.appendArgs(endNode);
 	}
 	
+	public void disconnect(InputNode endNode){data.deleteArg(endNode);}
+	
 	public void makefakethis() {
 		this.prayer = this;
 	}

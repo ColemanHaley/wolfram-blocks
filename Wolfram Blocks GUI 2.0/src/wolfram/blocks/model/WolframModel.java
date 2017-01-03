@@ -58,7 +58,7 @@ public class WolframModel {
 	private com.wolfram.jlink.Expr toMExpr(Block head){
 		try{
 			//TODO collapse into another private function for less code duplication (with Expr type method)
-			ml.evaluate( String.format("ToExpression[%s, InputForm, Inactive]", head.getName()) );
+			ml.evaluate( String.format("ToExpression[%s, InputForm]", head.getName()) );
 			ml.waitForAnswer();
 			com.wolfram.jlink.Expr headExpr = ml.getExpr();
 			//System.out.println("Expr: " + head.getData());
@@ -85,7 +85,7 @@ public class WolframModel {
 	private com.wolfram.jlink.Expr toMExpr(Expr head){
 		System.out.println("Here");
 		try{
-			ml.evaluate( String.format("ToExpression[%s, InputForm, Inactive]", head.getType()) );
+			ml.evaluate( String.format("ToExpression[%s, InputForm]", head.getType()) );
 			ml.waitForAnswer();
 			com.wolfram.jlink.Expr headExpr = ml.getExpr();
 			//System.out.println(headExpr.toString());
