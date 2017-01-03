@@ -48,11 +48,11 @@ public class HandleConnectors {
 		area.addEventHandler(MouseEvent.MOUSE_RELEASED, 
                 new EventHandler<MouseEvent>() {
                     public void handle(final MouseEvent mouseEvent) { 
-                    	
+                    	ArrayList<Node> toRemove = new ArrayList<Node>();
                     	ConnectCommunicator.setConnectMode(false);
                     	SimpleInputNodeView endNode = ConnectCommunicator.getConnectSignal();
                     	if(endNode == null){
-                    		ArrayList<Node> toRemove = new ArrayList<Node>();
+                    		
                     		for( Node n : connectorLayer.getChildren()){
                     			if(n instanceof Connector){
                     				if(!(((Connector) n).isLocked())){
@@ -61,18 +61,21 @@ public class HandleConnectors {
 		                    			
 	                    		}	
 	                    	}
-	                    	for(Node n : toRemove){
-	                    		connectorLayer.getChildren().remove(n);
-	                    	}
+	                    	
                     	} else {
 
                     		for( Node n : connectorLayer.getChildren()){
                     			if(n instanceof Connector){
                     				if(!(((Connector) n).isLocked())){
-                    					((Connector) n).setEndNode(endNode);
+                    					if(!((Connector) n).setEndNode(endNode))
+                    						toRemove.add(n);
 		                    		}		
 	                    		}	
 	                    	}
+                    		
+                    	}
+                    	for(Node n : toRemove){
+                    		connectorLayer.getChildren().remove(n);
                     	}
                     	ConnectCommunicator.sendConnectSignal(null);
                     };
