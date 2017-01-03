@@ -50,6 +50,8 @@ public class RightPaneController {
 	@FXML
 	private void handleNewStyle() {
 		Block newBlock = mainApp.createBlock();
+		newBlock.setBlockData(BlockFactory.createBlockData("String"));
+		newBlock.initializeBlock();
 		mainApp.addBlock((DraggableFactory.makeDraggable((Node)(newBlock))));
 	}
 	

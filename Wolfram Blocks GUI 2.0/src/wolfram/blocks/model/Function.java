@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 
 public enum Function {
-	STRING ("String", 0, true, true, true),
+	STRING ("String", 1, true, true, true),
 	//SELECT ("Select", 3, true, true, true),
 	STYLE ("Style", 1, true, true, true),
 	//SELECTFIRST,

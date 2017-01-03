@@ -13,6 +13,7 @@ import wolfram.blocks.view.Block;
 
 public class WolframModel {
 	private KernelLink ml = null; //put this in mainapp and kill them at the end of running
+
 	public WolframModel(KernelLink ml){
 		
 
@@ -60,10 +61,12 @@ public class WolframModel {
 			ml.evaluate( String.format("ToExpression[%s, InputForm, Inactive]", head.getName()) );
 			ml.waitForAnswer();
 			com.wolfram.jlink.Expr headExpr = ml.getExpr();
+			//System.out.println("Expr: " + head.getData());
 			ArrayList<com.wolfram.jlink.Expr> exprs = new ArrayList<com.wolfram.jlink.Expr>();
 			for(InputNode in : head.getInputs()){
+				//System.out.print(in+ ": ");
 				for(OutputNode out : in.getArgs()){
-					System.out.println("Y tho\n");
+					//System.out.println(out.getParent());
 					exprs.add(toMExpr(out.getParent()));
 					
 				}
@@ -80,16 +83,21 @@ public class WolframModel {
 	}
 
 	private com.wolfram.jlink.Expr toMExpr(Expr head){
+		System.out.println("Here");
 		try{
 			ml.evaluate( String.format("ToExpression[%s, InputForm, Inactive]", head.getType()) );
 			ml.waitForAnswer();
 			com.wolfram.jlink.Expr headExpr = ml.getExpr();
 			//System.out.println(headExpr.toString());
+			//System.out.println("Expr: " + head);
 			ArrayList<com.wolfram.jlink.Expr> exprs = new ArrayList<com.wolfram.jlink.Expr>();
+			//System.out.println(head.getInputs());
 			for(InputNode in : head.getInputs()){
+				//System.out.print(in+ ": ");
+				//System.out.println(in.getArgs().size());
 				for(OutputNode out : in.getArgs()){
 					exprs.add(toMExpr(out.getParent()));
-					System.out.println("Y tho\n");
+					//System.out.println(out.getParent());
 				}
 			}
 			

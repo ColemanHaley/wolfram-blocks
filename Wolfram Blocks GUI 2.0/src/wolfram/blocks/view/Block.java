@@ -126,6 +126,9 @@ public class Block extends AnchorPane {
 			AnchorPane.setTopAnchor(output, (200/2)-25.0);
 			output.setMainApp(mainApp);
 	}
+	
+	//TODO: burn w/ fire
+	public Expr getData(){return blockData;}
 
 	public ArrayList<InputNode> getOutArgs() {OutputNode out = blockData.getOutput(); return out != null ? out.getArgs() : new ArrayList<InputNode>();}
 	public ArrayList<InputNode> getInputs() {return blockData.getInputs();}
