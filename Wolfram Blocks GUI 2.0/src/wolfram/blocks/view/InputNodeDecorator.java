@@ -54,5 +54,10 @@ public abstract class InputNodeDecorator implements InputNodeView {
 	public ObservableList<Node> getChildren(){
 		return inToBeDecorated.getChildren();
 	}
+	
+	@Override
+	public void disconnect(OutputNode origin){
+		inToBeDecorated.disconnect(origin);
+	}
 
 }

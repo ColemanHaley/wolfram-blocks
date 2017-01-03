@@ -45,7 +45,9 @@ public class SimpleInputNodeView extends AnchorPane implements InputNodeView {
 						ConnectCommunicator.sendConnectSignal(this);connected=true;}}
 		);
 		inputNode.addEventHandler(MouseEvent.MOUSE_PRESSED,
-				event->ConnectCommunicator.setConnectMode(true)
+				event->{ConnectCommunicator.setConnectMode(true);
+						ConnectCommunicator.sendDisconnectSignal(this);
+				}
 		);
 	}
 	
@@ -70,8 +72,8 @@ public class SimpleInputNodeView extends AnchorPane implements InputNodeView {
 	 //Here we are with the getters and setters again :(
 	@Override
 	public InputNode getData(){return this.data;}
-	
-	public void disconnect(OutputNode origin){data.deleteArg(origin);}
+	@Override
+	public void disconnect(OutputNode origin){data.deleteArg(origin);connected=false;}
 	
 	private void draw(){
 		this.setPrefSize(25.0, 24.0);

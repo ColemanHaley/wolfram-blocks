@@ -74,10 +74,12 @@ public class Connector extends Line {
 		return false;
 	}
 	
-	public void detatch(SimpleInputNodeView endNode){
-		locked = false;
-		origin.disconnect(endNode.getData());
-		endNode.disconnect(origin.getData());
+	public void detatch(InputNodeView endNode){
+		if(endNode == ((InputNodeView)this.endNode)){
+			locked = false;
+			origin.disconnect(endNode.getData());
+			endNode.disconnect(origin.getData());
+		}
 	}
 	
 	

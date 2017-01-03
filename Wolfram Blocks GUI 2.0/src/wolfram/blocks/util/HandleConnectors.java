@@ -20,11 +20,16 @@ public class HandleConnectors {
                     public void handle(final MouseEvent mouseEvent) { 
                     	area.startFullDrag();
                     	for( Node n : connectorLayer.getChildren()){
-                    		if(n instanceof Connector && ConnectCommunicator.inConnectMode() && !(((Connector) n).isLocked())){
-                    			((Connector) n).setEndPointX(mouseEvent.getX());
-	                    		((Connector) n).setEndPointY(mouseEvent.getY());
+                    		if(n instanceof Connector && ConnectCommunicator.inConnectMode()){
+                    			if(!(((Connector) n).isLocked())){
+                    				((Connector) n).setEndPointX(mouseEvent.getX());
+                    				((Connector) n).setEndPointY(mouseEvent.getY());
+                    			} else if(ConnectCommunicator.getDisconnectSignal() != null){
+                    				((Connector)n).detatch(ConnectCommunicator.getDisconnectSignal());
+                    			}
                     		}
                     	}
+                    	ConnectCommunicator.sendDisconnectSignal(null);
                     };
                 });
 		area.addEventHandler(MouseEvent.MOUSE_DRAGGED, 

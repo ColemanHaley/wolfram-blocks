@@ -21,6 +21,7 @@ public interface InputNodeView  {
 	
 	ObservableList<Node> getChildren();
 	void addConnectedTo(OutputNode originNode);
+	public void disconnect(OutputNode origin);
 
 	//Here we are with the getters and setters again :(
 	InputNode getData();
