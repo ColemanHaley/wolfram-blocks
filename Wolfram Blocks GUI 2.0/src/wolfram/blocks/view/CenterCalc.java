@@ -34,6 +34,8 @@ public class CenterCalc {
 		//x += allInputs.getLayoutX();
 		x += block.getTranslateX();
 		x += block.getLayoutX();
+		block.getInputs().size();
+		((SimpleInputNodeView) input).getData().getID();
 		//Add layoutX of circle inside input
 		//x += 12;
 		return ShapeCenterCalc.inputShapeCenterX(x);
@@ -41,16 +43,17 @@ public class CenterCalc {
 		
 	}
 	
-	public static double inputCenterY(Node input) {
+	public static double inputCenterY(Node input, double layout) {
 		double y = 0;
 		Node allInputs = input.getParent();
 		Block block = ((SimpleInputNodeView) input).getBlock();
 		
 		//y += allInputs.getLayoutY();
 		y += block.getTranslateY();
-		y += block.getLayoutX();
+		y += block.getLayoutY();
+		y += layout;
 		//Add layoutX of circle inside input
-		//y += 12;
+		y -= 12;
 		return ShapeCenterCalc.inputShapeCenterY(y);
 
 		

@@ -46,7 +46,7 @@ public enum Function {
 							InputAttribute.NAMELESS, 
 							InputAttribute.LONGINPUTFIELD, 
 							InputAttribute.CANADDINPUTS);
-					InputNode listInput = new InputNode("", new ArrayList<OutputNode>(), attr);
+					InputNode listInput = new InputNode("", new ArrayList<OutputNode>(), attr, 1);
 					inputs.add(listInput);
 					break;
 				case "Style":
@@ -55,8 +55,8 @@ public enum Function {
 							InputAttribute.MATHEMATICAINPUTFIELD,
 							InputAttribute.LONGINPUTFIELD);
 					
-					InputNode styleExprInput = new InputNode("", new ArrayList<OutputNode>(), attr);
-					InputNode stringInput2 = new InputNode("", new ArrayList<OutputNode>(), attr);
+					InputNode styleExprInput = new InputNode("", new ArrayList<OutputNode>(), attr, 1);
+					InputNode stringInput2 = new InputNode("", new ArrayList<OutputNode>(), attr, 2);
 					//System.out.println(styleExprInput.getAttributes().size());
 					inputs.add(styleExprInput);
 					inputs.add(stringInput2);
@@ -67,7 +67,7 @@ public enum Function {
 							InputAttribute.INPUTFIELD,
 							InputAttribute.STRINGINPUTFIELD,
 							InputAttribute.LONGINPUTFIELD);
-					InputNode stringInput = new InputNode("", new ArrayList<OutputNode>(), attr);
+					InputNode stringInput = new InputNode("", new ArrayList<OutputNode>(), attr, 1);
 					inputs.add(stringInput);
 					break;
 			}	

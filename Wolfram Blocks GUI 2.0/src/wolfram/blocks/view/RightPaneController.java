@@ -44,13 +44,13 @@ public class RightPaneController {
 		Block newBlock = mainApp.createBlock();
 		newBlock.setBlockData(BlockFactory.createBlockData("Style"));
 		newBlock.initializeBlock();
-		mainApp.addBlock((DraggableFactory.makeDraggable((Node)(newBlock), this)));
+		mainApp.addBlock((DraggableFactory.makeDraggable((Node)(newBlock))));
 	}
 	
 	@FXML
 	private void handleNewStyle() {
 		Block newBlock = mainApp.createBlock();
-		mainApp.addBlock((DraggableFactory.makeDraggable((Node)(newBlock), this)));
+		mainApp.addBlock((DraggableFactory.makeDraggable((Node)(newBlock))));
 	}
 	
 	@FXML

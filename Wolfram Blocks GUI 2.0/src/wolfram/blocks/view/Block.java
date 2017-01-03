@@ -33,6 +33,8 @@ public class Block extends AnchorPane {
 	private OutputNodeView output;
 	
 	private MainApp mainApp;
+	
+	private double[] layout;
 
 	public Block(){
 		super();
@@ -76,10 +78,13 @@ public class Block extends AnchorPane {
 	}
 	
 	private void inputPopulate() {
-			double[] layout = new double[blockData.getInputs().size()];
+			
+		InputNodeFactory inFactory = new InputNodeFactory();
+			layout = new double[blockData.getInputs().size()];
 			for(int i = 0; i<blockData.getInputs().size(); i++) {
-				SimpleInputNodeView input = new SimpleInputNodeView(mainApp.getRPController(), blockData.getInputs().get(i), this);
-				inputs.getChildren().addAll(input);
+				InputNodeView input = new SimpleInputNodeView(blockData.getInputs().get(i), this);
+				inputs.getChildren().add((Node) input);
+				inFactory.decorateInputNode(input);
 				layout[i] = ((i+1)*200)/(layout.length+1);
 				
 			}
@@ -94,18 +99,20 @@ public class Block extends AnchorPane {
 			AnchorPane.setTopAnchor(inputs, layout[0]-12.0);
 			AnchorPane.setBottomAnchor(inputs, layout[0]-12.0);
 		
-		for(Node input : inputs.getChildren() ) {
-			((SimpleInputNodeView)input).setXCenter(CenterCalc.inputCenterX(input));
-			((SimpleInputNodeView)input).setYCenter(CenterCalc.inputCenterY(input));	
+		for(int i = 0; i < inputs.getChildren().size(); i++ ) {
+			SimpleInputNodeView input = (SimpleInputNodeView) inputs.getChildren().get(i);
+			input.setXCenter(CenterCalc.inputCenterX(input));
+			input.setYCenter(CenterCalc.inputCenterY(input, layout[i]));	
 		}
 		
 	} 	
 	
 	private void refreshInOutCenter() {
-		for(Node input : inputs.getChildren() ) {
-			((SimpleInputNodeView)input).setXCenter(CenterCalc.inputCenterX(input));
-			((SimpleInputNodeView)input).setYCenter(CenterCalc.inputCenterY(input));	
-		}	
+		for(int i = 0; i < inputs.getChildren().size(); i++ ) {
+			SimpleInputNodeView input = (SimpleInputNodeView) inputs.getChildren().get(i);
+			input.setXCenter(CenterCalc.inputCenterX(input));
+			input.setYCenter(CenterCalc.inputCenterY(input, layout[i]));	
+		}
 		if(output != null) {
 			output.setXCenter(CenterCalc.outputCenterX(output));
 			output.setYCenter(CenterCalc.outputCenterY(output));	

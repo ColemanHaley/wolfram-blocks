@@ -57,7 +57,7 @@ public class OutputNodeView extends Group {
 					mainApp.addConnector(newConnector);
 					newConnector.setEndPointX(mouseEvent.getSceneX() + 10);
 					newConnector.setEndPointY(mouseEvent.getSceneY()- 40);
-					mainApp.getRPController().setConnectMode(true);	
+					ConnectCommunicator.setConnectMode(true);	
 			}		
 		});
 	}

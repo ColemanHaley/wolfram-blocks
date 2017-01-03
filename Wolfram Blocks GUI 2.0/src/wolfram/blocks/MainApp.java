@@ -114,7 +114,7 @@ public class MainApp extends Application {
 		AnchorPane conLayer = showConnectorLayer();
 		
 		blockConnectors.getChildren().addAll(blockArea, conLayer);
-		HandleConnectors.handleUnboundConnectors(blockArea, conLayer, rightPaneController); //sets any unbound end point to the current mouse location
+		HandleConnectors.handleUnboundConnectors(blockArea, conLayer); //sets any unbound end point to the current mouse location
 		conLayer.toFront();	
 		conLayer.prefWidthProperty().bind(blockConnectors.widthProperty());
 		conLayer.prefHeightProperty().bind(blockConnectors.heightProperty());

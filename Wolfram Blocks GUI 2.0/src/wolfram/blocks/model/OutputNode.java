@@ -2,7 +2,7 @@ package wolfram.blocks.model;
 
 import java.util.ArrayList;
 
-public class OutputNode implements ONode {
+public class OutputNode {
 	public ArrayList<InputNode> args;
 	public Expr parent;
 	public OutputNode (Expr parent) {
