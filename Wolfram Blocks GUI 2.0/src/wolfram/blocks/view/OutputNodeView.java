@@ -3,11 +3,9 @@ package wolfram.blocks.view;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.event.EventHandler;
-import javafx.fxml.FXML;
 import javafx.scene.Group;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
-import javafx.scene.shape.Circle;
 import javafx.scene.shape.Polygon;
 import wolfram.blocks.MainApp;
 import wolfram.blocks.model.InputNode;
@@ -53,10 +51,13 @@ public class OutputNodeView extends Group {
 		this.addEventFilter(MouseEvent.MOUSE_PRESSED, new EventHandler<MouseEvent>() {
 			public void handle(final MouseEvent mouseEvent) {
 					mouseClicked = true;
-					Connector newConnector = new Connector(prayer); //can't i just say "this"???
-					mainApp.addConnector(newConnector);
+					
+					Connector newConnector = new Connector(prayer); //TODO: can't i just say "this"???
+					mainApp.addConnector(newConnector); //TODO: make me not need a reference to main
+					
 					newConnector.setEndPointX(mouseEvent.getSceneX() + 10);
 					newConnector.setEndPointY(mouseEvent.getSceneY()- 40);
+					
 					ConnectCommunicator.setConnectMode(true);	
 			}		
 		});

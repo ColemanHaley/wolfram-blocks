@@ -10,6 +10,7 @@ public class LongInputFieldDecorator extends InputNodeDecorator {
 	public LongInputFieldDecorator(InputNodeView i) {
 		super(i);
 		addInputField(i);
+		
 	}
 
 	private void addInputField(InputNodeView i){
@@ -18,4 +19,5 @@ public class LongInputFieldDecorator extends InputNodeDecorator {
 		i.getChildren().add(t);
 		AnchorPane.setLeftAnchor(t, 24.0);
 	}
+	
 }

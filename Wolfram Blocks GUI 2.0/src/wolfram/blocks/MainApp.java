@@ -11,6 +11,7 @@ import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
@@ -22,6 +23,7 @@ import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import wolfram.blocks.model.BlockFactory;
+import wolfram.blocks.model.FunctionDB;
 import wolfram.blocks.util.HandleConnectors;
 import wolfram.blocks.view.Connector;
 import wolfram.blocks.view.SimpleInputNodeView;
@@ -35,8 +37,7 @@ public class MainApp extends Application {
 	
 	private Stage primaryStage;
 	private BorderPane rootLayout;
-	private double numBlocks = 0; //Total number of blocks currently existing
-	private AnchorPane testBlock;
+	private double numBlocks = 0; //This should go away ideally
 	private RightPaneController rightPaneController;
 	private KernelLink ml = null;
 	
@@ -50,8 +51,11 @@ public class MainApp extends Application {
     {
     	this.primaryStage = mainStage;
         primaryStage.setTitle("Wolfram Blocks"); //TODO: Come up with better title
-        
+        primaryStage.getIcons().add(new Image("file:C:\\users\\colem\\documents\\gi.png"));
+        FunctionDB db = new FunctionDB();
+        db.startDatabase();
         try {
+        	//TODO make this system specific
 			ml = MathLinkFactory.createKernelLink("-linkmode launch -linkname \"C:\\\\Program Files\\\\Wolfram Research\\\\Mathematica\\\\10.4\\\\mathkernel.exe\"");
 		} catch (MathLinkException e) {
 			System.out.println("MathLinkException occurred: " + e.getMessage());
@@ -98,8 +102,6 @@ public class MainApp extends Application {
 			loader.setLocation(MainApp.class.getResource("view/BlockAnchorPane.fxml"));
 			conLayer = (AnchorPane) loader.load();
 			conLayer.setMouseTransparent(true); //This is sketchy hacky
-			//Background color = new Background(new BackgroundFill(Color.DARKMAGENTA, CornerRadii.EMPTY, Insets.EMPTY));
-			//conLayer.setBackground(color);
 			return conLayer;
 			
 		} catch (IOException e) {
@@ -134,7 +136,7 @@ public class MainApp extends Application {
 			block.relocate(100+numBlocks*2, 50+numBlocks*2); //TODO: Replace this with logical placement
 			AnchorPane.setTopAnchor(block, numBlocks*100);
 			numBlocks++;
-			testBlock = block;
+			
 			block.setMainApp(this);
 			return block;
 	}
@@ -153,10 +155,6 @@ public class MainApp extends Application {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-	}
-	
-	public double getNumBlocks() {
-		return numBlocks;
 	}
 	
 	public BorderPane getRoot() {
@@ -183,7 +181,6 @@ public class MainApp extends Application {
 	@Override
 	public void stop(){
 		ml.close();
-		System.out.println("Works.");
 	}
 	
 	public AnchorPane getBlockArea(){return ((AnchorPane) ((AnchorPane) rootLayout.getCenter()).getChildren().get(0));}
