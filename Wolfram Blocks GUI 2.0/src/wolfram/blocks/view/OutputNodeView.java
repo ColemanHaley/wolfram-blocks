@@ -37,7 +37,7 @@ public class OutputNodeView extends Group {
 				  0.0,   25.0});
 		outputNode.setLayoutX(12.0);
 		outputNode.setLayoutY(13.0);
-		outputNode.setFill(Color.DODGERBLUE);
+		outputNode.setFill(Color.web("#8997A3"));
 		initialize();
 		this.getChildren().add(outputNode);
 		makefakethis();

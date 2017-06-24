@@ -29,28 +29,33 @@ public class CenterCalc {
 	public static double inputCenterX(Node input) {
 		double x = 0;
 		Node allInputs = input.getParent();
-		Node block = allInputs.getParent().getParent();
+		Block block = ((SimpleInputNodeView) input).getBlock();
 		
-		x += allInputs.getLayoutX();
+		//x += allInputs.getLayoutX();
 		x += block.getTranslateX();
 		x += block.getLayoutX();
+		block.getInputs().size();
+		((SimpleInputNodeView) input).getData().getID();
 		//Add layoutX of circle inside input
-		x += 12;
+		//x += 12;
 		return ShapeCenterCalc.inputShapeCenterX(x);
+
 		
 	}
 	
-	public static double inputCenterY(Node input) {
+	public static double inputCenterY(Node input, double layout) {
 		double y = 0;
 		Node allInputs = input.getParent();
-		Node block = allInputs.getParent().getParent();
+		Block block = ((SimpleInputNodeView) input).getBlock();
 		
-		y += allInputs.getLayoutY();
+		//y += allInputs.getLayoutY();
 		y += block.getTranslateY();
-		y += block.getLayoutX();
+		y += block.getLayoutY();
+		y += layout;
 		//Add layoutX of circle inside input
-		y += 12;
+		y -= 12;
 		return ShapeCenterCalc.inputShapeCenterY(y);
+
 		
 	}
 	

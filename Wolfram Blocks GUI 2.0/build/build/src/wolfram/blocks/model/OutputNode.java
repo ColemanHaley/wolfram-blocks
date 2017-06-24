@@ -4,28 +4,32 @@ import java.util.ArrayList;
 
 public class OutputNode {
 	public ArrayList<InputNode> args;
-	public long id;
-	public OutputNode () {
-		this(new ArrayList<InputNode>());
+	public Expr parent;
+	public OutputNode (Expr parent) {
+		this(new ArrayList<InputNode>(), parent);
 	}
-	public OutputNode (ArrayList<InputNode> initArgs) {
+	public OutputNode (ArrayList<InputNode> initArgs, Expr parent) {
 		args = initArgs;
+		this.parent = parent;
 	}
+	
 	public ArrayList<InputNode> getArgs () {
 		return args;
 	}
+
+	
 	public void appendArgs (InputNode newArg) {
 		args.add(newArg);
 	}
+	
+	public void deleteArg(InputNode toDelete){args.remove(toDelete);}
+	
 	public void appendArgs (ArrayList<InputNode> newArgs) {
 		args.addAll(newArgs);
 	}
-	public static boolean regionFunction () {
-		//TODO Add real code;
-		//TODO See if all are same shape and size;
-		return false;
-	}
-	public void setID (long newID) {
-		id = newID;
-	}
+
+	
+	public Expr getParent() {return parent;}
+
+	
 }

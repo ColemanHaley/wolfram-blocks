@@ -14,7 +14,7 @@ public class Connector extends Line {
 	DoubleProperty endPointY = new SimpleDoubleProperty(this, "mousePosY");
 	boolean locked = false;
 	OutputNodeView origin;
-	InputNode endNode;
+	SimpleInputNodeView endNode;
 	
 	public Connector(OutputNodeView origin) {
 		super();
@@ -54,18 +54,33 @@ public class Connector extends Line {
 		return locked;
 	}
 	
-	public void setEndNode(InputNode endNode){
-		if(!this.locked){
+	public OutputNodeView getOrigin(){return origin;}
+	
+	public boolean setEndNode(SimpleInputNodeView endNode){
+		if(!this.locked && origin.getData().getParent() != endNode.getBlock().getData()){
 			this.endNode = endNode;
-			AnchorPane endNodeBlock = (AnchorPane) endNode.getParent().getParent();
+			Block endNodeBlock = endNode.getBlock();
 			this.locked = true;
-//			endPointX = endNode.getXCenter();
-//			endPointX.add(endNodeBlock.getLayoutX() + endNodeBlock.getTranslateX());
-//			endPointY = endNode.getYCenter();
-//			endPointY.add(endNodeBlock.getLayoutY() + endNodeBlock.getTranslateY());
-//			endXProperty().bind(endPointX);
-//			endYProperty().bind(endPointY);
+			origin.addConnectedTo(endNode.getData());
+			endNode.addConnectedTo(origin.getData());
+			endPointX = endNode.getXCenter();
+			endPointX.add(endNodeBlock.getLayoutX() + endNodeBlock.getTranslateX());
+			endPointY = endNode.getYCenter();
+			endPointY.add(endNodeBlock.getLayoutY() + endNodeBlock.getTranslateY());
+			endXProperty().bind(endPointX);
+			endYProperty().bind(endPointY);
+			return true;
+		}
+		return false;
+	}
+	
+	public void detatch(InputNodeView endNode){
+		if(endNode == ((InputNodeView)this.endNode)){
+			locked = false;
+			origin.disconnect(endNode.getData());
+			endNode.disconnect(origin.getData());
 		}
 	}
+	
 	
 }

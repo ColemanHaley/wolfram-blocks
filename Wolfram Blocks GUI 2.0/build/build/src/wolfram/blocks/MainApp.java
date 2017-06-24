@@ -1,10 +1,17 @@
 package wolfram.blocks;
 
 import java.io.IOException;
+
+import com.wolfram.jlink.KernelLink;
+import com.wolfram.jlink.MathLinkException;
+import com.wolfram.jlink.MathLinkFactory;
+
+import wolfram.blocks.view.Block;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
@@ -16,10 +23,10 @@ import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import wolfram.blocks.model.BlockFactory;
+import wolfram.blocks.model.FunctionDB;
 import wolfram.blocks.util.HandleConnectors;
-import wolfram.blocks.view.BlockController;
 import wolfram.blocks.view.Connector;
-import wolfram.blocks.view.InputNode;
+import wolfram.blocks.view.SimpleInputNodeView;
 import wolfram.blocks.view.OutputNodeView;
 import wolfram.blocks.view.RightPaneController;
 import javafx.scene.input.MouseEvent;
@@ -30,10 +37,9 @@ public class MainApp extends Application {
 	
 	private Stage primaryStage;
 	private BorderPane rootLayout;
-	private double numBlocks = 0; //Total number of blocks currently existing
-	private AnchorPane testBlock;
-	private BlockController newController;
+	private double numBlocks = 0; //This should go away ideally
 	private RightPaneController rightPaneController;
+	private KernelLink ml = null;
 	
     public static void main(String[] args) 
     {
@@ -45,7 +51,15 @@ public class MainApp extends Application {
     {
     	this.primaryStage = mainStage;
         primaryStage.setTitle("Wolfram Blocks"); //TODO: Come up with better title
-        
+        primaryStage.getIcons().add(new Image("file:C:\\users\\colem\\documents\\gi.png"));
+        FunctionDB db = new FunctionDB();
+        db.startDatabase();
+        try {
+        	//TODO make this system specific
+			ml = MathLinkFactory.createKernelLink("-linkmode launch -linkname \"C:\\\\Program Files\\\\Wolfram Research\\\\Mathematica\\\\10.4\\\\mathkernel.exe\"");
+		} catch (MathLinkException e) {
+			System.out.println("MathLinkException occurred: " + e.getMessage());
+		}
         initRootLayout(); //Make the window
         showRightPane(); //Make the menu
         showBlocksandConnectors();
@@ -88,8 +102,6 @@ public class MainApp extends Application {
 			loader.setLocation(MainApp.class.getResource("view/BlockAnchorPane.fxml"));
 			conLayer = (AnchorPane) loader.load();
 			conLayer.setMouseTransparent(true); //This is sketchy hacky
-			//Background color = new Background(new BackgroundFill(Color.DARKMAGENTA, CornerRadii.EMPTY, Insets.EMPTY));
-			//conLayer.setBackground(color);
 			return conLayer;
 			
 		} catch (IOException e) {
@@ -104,7 +116,7 @@ public class MainApp extends Application {
 		AnchorPane conLayer = showConnectorLayer();
 		
 		blockConnectors.getChildren().addAll(blockArea, conLayer);
-		HandleConnectors.handleUnboundConnectors(blockArea, conLayer, rightPaneController); //sets any unbound end point to the current mouse location
+		HandleConnectors.handleUnboundConnectors(blockArea, conLayer); //sets any unbound end point to the current mouse location
 		conLayer.toFront();	
 		conLayer.prefWidthProperty().bind(blockConnectors.widthProperty());
 		conLayer.prefHeightProperty().bind(blockConnectors.heightProperty());
@@ -114,24 +126,19 @@ public class MainApp extends Application {
 		
 	}
 	
-	public void createBlock() {
-		try {
-			FXMLLoader loader = new FXMLLoader();
-			loader.setLocation(MainApp.class.getResource("view/Block.fxml"));
-			AnchorPane block = (AnchorPane) loader.load();
+	public Block createBlock() {
+			Block block = new Block();
 			AnchorPane blockArea = (AnchorPane) ((AnchorPane)rootLayout.getCenter()).getChildren().get(0);
 			
 			blockArea.getChildren().addAll(block);
+			//blockArea.getChildren().addAll(new Block());
 			
 			block.relocate(100+numBlocks*2, 50+numBlocks*2); //TODO: Replace this with logical placement
 			AnchorPane.setTopAnchor(block, numBlocks*100);
 			numBlocks++;
-			testBlock = block;
-			newController = loader.getController();
-			newController.setMainApp(this);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+			
+			block.setMainApp(this);
+			return block;
 	}
 	
 	public void showRightPane() {
@@ -143,39 +150,38 @@ public class MainApp extends Application {
 			rootLayout.setRight(rightPane);
 			rightPaneController = loader.getController();
 			rightPaneController.setMainApp(this);
+			rightPaneController.setMathLink(ml);
 			
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 	}
 	
-	public double getNumBlocks() {
-		return numBlocks;
-	}
-	
 	public BorderPane getRoot() {
 		return rootLayout;
 	}
 	
-	public AnchorPane getBlock() {
-		return testBlock;
-	}
-	
-	public BlockController getBlockController(){
-		return newController;
-	}
+
 	
 	public RightPaneController getRPController(){
 		return rightPaneController;
 	}
 	
 	public void addBlock(Node block) {
+		//TODO: add safety
 		AnchorPane blockArea = ((AnchorPane) ((AnchorPane) rootLayout.getCenter()).getChildren().get(0));
 		blockArea.getChildren().addAll(block);
 	}
 	
 	public void addConnector(Node connector){
+		//TODO add safety
 		AnchorPane conLayer = ((AnchorPane) ((AnchorPane) rootLayout.getCenter()).getChildren().get(1));
 		conLayer.getChildren().addAll(connector);
 	}
+	@Override
+	public void stop(){
+		ml.close();
+	}
+	
+	public AnchorPane getBlockArea(){return ((AnchorPane) ((AnchorPane) rootLayout.getCenter()).getChildren().get(0));}
 }

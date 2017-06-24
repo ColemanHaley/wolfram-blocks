@@ -29,8 +29,8 @@ public class BlockFactory {
 			}
 			if (fn.inputCount()>0) {
 				expr.hasInputs();
-				for(InputNode i : fn.getInputs()) {
-					expr.addInput(i);
+				for(int i = 0; i < fn.getInputs().size(); i++) {
+					expr.addInput(new InputNode(i));
 				}
 			}
 		

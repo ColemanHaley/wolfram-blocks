@@ -7,3 +7,6 @@
 .vbox {
 
 }
+#label {
+	-fx-font-size: 35.0;
+}

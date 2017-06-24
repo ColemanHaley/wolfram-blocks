@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<jnlp spec="1.0" xmlns:jfx="http://javafx.com" href="Wolfram Blocks GUI 2.0.jnlp">
+  <information>
+    <title>Wolfram Blocks GUI 2.0</title>
+    <vendor>Me</vendor>
+    <description>Me</description>
+    <offline-allowed/>
+  </information>
+  <resources>
+    <j2se version="1.6+" href="http://java.sun.com/products/autodl/j2se"/>
+    <jar href="libs\JLink.jar" size="250783" download="eager" />
+    <jar href="libs\h2-1.4.193.jar" size="1792153" download="eager" />
+    <jar href="libs\junit.jar" size="314932" download="eager" />
+    <jar href="libs\org.hamcrest.core_1.3.0.v201303031735.jar" size="55198" download="eager" />
+  </resources>
+  <jfx:javafx-desc  width="0" height="0" main-class="wolfram.blocks.MainApp"  name="Me" />
+  <update check="background"/>
+</jnlp>

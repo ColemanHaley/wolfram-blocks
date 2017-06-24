@@ -11,7 +11,7 @@ public class Expr {
 	
 	private boolean collapsed;
 	private ArrayList<InputNode> inputs;
-	private OutputNode output;
+	private OutputNode output = null;
 	private Function parent;
 	
 	//private boolean groupMember;
@@ -41,7 +41,7 @@ public class Expr {
 	public String getType() {return type;}
 	
 	public long id() {return id;}
-
+//TODO: Real error handling
 	public void changeCollapseState() {
 		if (collapsible = true) {
 			collapsed = !collapsed;
@@ -64,8 +64,7 @@ public class Expr {
 	public void hasOutput() {
 		if (hasOutput != true) {
 			hasOutput = true;
-			output = new OutputNode();
-			output.setID(this.id);
+			output = new OutputNode(this);
 		}
 		else {
 			System.out.println("Warning: This Expr has already been declared as having an output. Called: hasOutput().");
@@ -84,7 +83,6 @@ public class Expr {
 	
 	public void addInput(InputNode input) {
 		if (hasInputs = true) {
-			input.setID(this.id);
 			inputs.add(input);
 		}
 		else {
@@ -112,5 +110,4 @@ public class Expr {
 	
 	public OutputNode getOutput() {return output;}
 	public ArrayList<InputNode> getInputs() {return inputs;}
-	
 }
