@@ -1,14 +1,14 @@
 package wolfram.blocks.model;
 
-public enum InputAttribute {
-	NAMELESS,
-	INPUTFIELD,
-	LONGINPUTFIELD,
-	SHORTINPUTFIELD,
-	MEDIUMINPUTFIELD,
-	STRINGINPUTFIELD,
-	INTINPUTFIELD,
-	MATHEMATICAINPUTFIELD,
-	CANADDINPUTS,
-	DOUBLEINPUTFIELD;
+public class InputAttribute {
+	
+	private String name;
+	
+	public InputAttribute(String str) {
+		name = str;
+	}
+	
+	public String getName() {
+		return name;
+	}
 }

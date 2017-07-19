@@ -92,7 +92,7 @@ public class Block extends AnchorPane {
 			for(int i = 0; i<blockData.getInputs().size(); i++) {
 				InputNodeView input = new SimpleInputNodeView(blockData.getInputs().get(i), this);
 				inputs.getChildren().add((Node) input);
-				inFactory.decorateInputNode(input);
+				//inFactory.decorateInputNode(input);
 				layout[i] = ((i+1)*200)/(layout.length+1);
 				
 			}

@@ -5,7 +5,7 @@ import org.h2.Driver;
 
 public class FunctionDB {
 	public void startDatabase(){
-		try {
+		/*try {
 			Class.forName("org.h2.Driver");
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
@@ -18,7 +18,7 @@ public class FunctionDB {
 		} catch (SQLException e) {
 			e.printStackTrace();
 			return;
-		}
+		}*/
 	}
 }
 

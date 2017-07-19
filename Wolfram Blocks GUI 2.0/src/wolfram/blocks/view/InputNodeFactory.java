@@ -10,12 +10,13 @@ public class InputNodeFactory {
 		
 		
 		for(InputAttribute i : inputView.getData().getAttributes()){
-			switch(i){
+			/*switch(i){
 				case LONGINPUTFIELD:
 					inputView = new LongInputFieldDecorator(inputView);
 				default:
 					break;
-			}	
+			}*/
+			
 		}
 	}
 	

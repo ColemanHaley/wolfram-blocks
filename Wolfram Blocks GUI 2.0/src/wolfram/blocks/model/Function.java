@@ -1,89 +1,106 @@
 package wolfram.blocks.model;
 
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
-import java.util.Collections;
+import java.util.Map;
 
-public enum Function {
-	STRING ("String", 1, true, true, true),
-	//SELECT ("Select", 3, true, true, true),
-	STYLE ("Style", 1, true, true, true),
-	//SELECTFIRST,
-	//APPENDTO,
-	MLIST ("List", 1, true, true, false);
+// TODO add block attributes
+public class Function {
+	public static Connection fnConn = null;
+	private static Map<Integer, InputAttribute> attlist;
 	
-	private final String type;
-	private final ArrayList<InputNode> inputs = new ArrayList<InputNode>();
-	private final ArrayList<BlockAttribute> attributes = new ArrayList<BlockAttribute>();
-	private final int inputCount;
-	private final boolean hasOutput;
-	private final boolean isCollapsible;
+	private String name;
+	private String label;
+	private int numInputs;
+	boolean hasoutputs;
+	boolean collapsible;
+	boolean attributes;
+	ArrayList<InputNode> in;
 	
-	Function (String label, int numIn, boolean outputs, boolean collapses, boolean hasAttributes) {
-		this.type = label;
-		this.inputCount = numIn;
-		this.hasOutput = outputs;
-		this.isCollapsible = collapses;
-		if (hasAttributes == true) {
-			makeAttributes();
-		}
-		makeInputs();
-	}
-	
-	public String type() {return type;}
-	public int inputCount() {return inputCount;}
-	public boolean hasOutput() {return hasOutput;}
-	public boolean isCollapsible() {return isCollapsible;}
-	
-	private void makeInputs() {
-		if(inputCount > 0) {
-			//TODO must resolve attr clearing for more than one input!
-			ArrayList<InputAttribute> attr = new ArrayList<InputAttribute>();
-			switch (type) {
-				case "List":
-					Collections.addAll(attr, 
-							InputAttribute.INPUTFIELD,
-							InputAttribute.MATHEMATICAINPUTFIELD,
-							InputAttribute.NAMELESS, 
-							InputAttribute.LONGINPUTFIELD, 
-							InputAttribute.CANADDINPUTS);
-					InputNode listInput = new InputNode("", new ArrayList<OutputNode>(), attr, 1);
-					inputs.add(listInput);
-					break;
-				case "Style":
-					Collections.addAll(attr,
-							InputAttribute.INPUTFIELD,
-							InputAttribute.MATHEMATICAINPUTFIELD,
-							InputAttribute.LONGINPUTFIELD);
-					
-					InputNode styleExprInput = new InputNode("", new ArrayList<OutputNode>(), attr, 1);
-					InputNode stringInput2 = new InputNode("", new ArrayList<OutputNode>(), attr, 2);
-					//System.out.println(styleExprInput.getAttributes().size());
-					inputs.add(styleExprInput);
-					inputs.add(stringInput2);
-					//System.out.println(styleExprInput.getAttributes().size());
-					break;
-				case "String":
-					Collections.addAll(attr,
-							InputAttribute.INPUTFIELD,
-							InputAttribute.STRINGINPUTFIELD,
-							InputAttribute.LONGINPUTFIELD);
-					InputNode stringInput = new InputNode("", new ArrayList<OutputNode>(), attr, 1);
-					inputs.add(stringInput);
-					break;
-			}	
+	public Function(String type, Connection con, Map<Integer, InputAttribute> inAttr) {
+		Statement stmt;
+		String getType = "SELECT * FROM FUNCTIONS WHERE NAME = '" + type + "'";
+		name = type;
+		try {
+			if (fnConn == null) {
+				fnConn = con;
+				attlist = inAttr;
+			}
+			stmt = fnConn.createStatement();
+			ResultSet function = stmt.executeQuery(getType);
+			int count = 0;
+			while (function.next()) {
+				if (count > 0) {
+					throw new SQLException();
+				}
+				label = function.getString("LABEL"); //Maybe use?
+				numInputs = function.getInt("NUMINPUTS");
+				hasoutputs = function.getBoolean("HASOUTPUT");
+				collapsible = function.getBoolean("COLLAPSIBLE");
+				attributes = function.getBoolean("ATTRIBUTES");
+				if (numInputs != 0) {
+					in = getInputs(name);
+				}
+				count++;
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
 		}
 	}
 	
-	private void makeAttributes() {
-		switch (type) {
-			case "Style": 
-				this.attributes.add(BlockAttribute.HASOPTIONS);
-			case "String":
-				this.attributes.add(BlockAttribute.TIGHTFIT);
+	private ArrayList<InputNode> getInputs(String name) {
+		ArrayList<InputNode> results = new ArrayList<>();
+		try {
+			Statement instmt = fnConn.createStatement();
+			ResultSet inputs = instmt.executeQuery("SELECT * FROM INPUTS WHERE FN_NAME = '" + name + "'");
+			while (inputs.next()) {
+				String label = inputs.getString("LABEL");
+				int id = inputs.getInt("IN_ID");
+				Statement attrstmt = fnConn.createStatement();
+				ResultSet attr = attrstmt.executeQuery("SELECT * FROM INPUT_DETAILS WHERE IN_ID = " 
+				+ id + " AND FN_NAME = '" + name + "'");
+				ArrayList<InputAttribute> attrs = new ArrayList<>();
+				while (attr.next()) {
+					int at = attr.getInt("ATNAME");
+					attrs.add(attlist.get(at));
+				}
+				results.add(new InputNode(label, attrs, id));
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
 		}
+		return results;
 	}
 
-	
-	public ArrayList<InputNode> getInputs() {return inputs;}
+	public String getName() {
+		return name;
+	}
+
+	public String getLabel() {
+		return label;
+	}
+
+	public int getNumInputs() {
+		return numInputs;
+	}
+
+	public boolean isHasoutputs() {
+		return hasoutputs;
+	}
+
+	public boolean isCollapsible() {
+		return collapsible;
+	}
+
+	public boolean isAttributes() {
+		return attributes;
+	}
+
+	public ArrayList<InputNode> getIn() {
+		return in;
+	}
+
 }
-

@@ -12,8 +12,6 @@ public class Expr {
 	private boolean collapsed;
 	private ArrayList<InputNode> inputs;
 	private OutputNode output = null;
-	private Function parent;
-	
 	//private boolean groupMember;
 	//private boolean isGroupHead;
 	private String blockLabel;
@@ -21,12 +19,18 @@ public class Expr {
 	
 	//private HashMap<String, Object> attributes;
 	
-	public Expr(String type, Function parent) {
-		//this.groupMember = false;
-		//this.isGroupHead = false;
-		this.blockLabel = type;
-		this.type = type;
-		this.parent = parent;
+	
+	public Expr(Function fn) {
+		if (fn == null) {
+			System.out.println("thats how java works");
+		}
+		this.type = fn.getName();
+		this.blockLabel = fn.getLabel();
+		this.collapsible = fn.isCollapsible();
+		this.hasOutput = fn.isHasoutputs();
+		this.output = (this.hasOutput) ? new OutputNode(this) : null;
+		this.hasInputs = (fn.getNumInputs() > 0) ? true : false;
+		this.inputs = fn.getIn();
 	}
 	
 	
@@ -35,7 +39,6 @@ public class Expr {
 	//}
 	
 	public String getBlockLabel() {return blockLabel;}
-	public Function getParent() {return parent;}
 	public void setBlockLabel(String str) {blockLabel = str;}
 	
 	public String getType() {return type;}
@@ -60,7 +63,7 @@ public class Expr {
 			System.out.println("Warning: This Expr has already been declared as collapsible. Called: isCollapsible().");
 		}
 	}
-	
+/*	
 	public void hasOutput() {
 		if (hasOutput != true) {
 			hasOutput = true;
@@ -80,7 +83,7 @@ public class Expr {
 			System.out.println("Warning: This Expr has already been declared as having input(s). Called: hasInputs().");
 		}
 	}
-	
+*/	
 	public void addInput(InputNode input) {
 		if (hasInputs = true) {
 			inputs.add(input);

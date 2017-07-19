@@ -16,6 +16,10 @@ public class InputNode implements INode {
 	public InputNode (int id) {
 		this("",new ArrayList<OutputNode>(),new ArrayList<InputAttribute>(), id);
 	}
+	public InputNode(String label, ArrayList<InputAttribute> attributes, int id) {
+		this(label, new ArrayList<OutputNode>(), attributes, id);
+	}
+	
 	//args functions
 	public InputNode(String label, ArrayList<OutputNode> initArgs, ArrayList<InputAttribute> attributes, int id) {
 		this.args = initArgs;
