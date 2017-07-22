@@ -36,14 +36,10 @@ public class HandleConnectors {
                 new EventHandler<MouseEvent>() {
                     public void handle(final MouseEvent mouseEvent) { 
                     	for( Node n : connectorLayer.getChildren()){
-                    		if(n instanceof Connector){
-                    			if(ConnectCommunicator.inConnectMode()){
-	                    			if(!(((Connector) n).isLocked())){
+                    		if(n instanceof Connector && ConnectCommunicator.inConnectMode() && !(((Connector) n).isLocked())){
 	                    				((Connector) n).setEndPointX(mouseEvent.getX());
 	                    				((Connector) n).setEndPointY(mouseEvent.getY());
-	                    			}
-                    			}
-                    		}
+	                    	}
                     	}
                     };
                 });

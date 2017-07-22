@@ -22,7 +22,6 @@ import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
-import wolfram.blocks.model.BlockFactory;
 import wolfram.blocks.model.FunctionDB;
 import wolfram.blocks.util.HandleConnectors;
 import wolfram.blocks.view.Connector;

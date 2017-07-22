@@ -4,6 +4,7 @@ import javafx.scene.layout.AnchorPane;
 import java.util.ArrayList;
 import javafx.scene.Node;
 import javafx.scene.control.TextField;
+import javafx.scene.input.MouseDragEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -65,6 +66,9 @@ public class Block extends AnchorPane {
 		this.addEventFilter(MouseEvent.MOUSE_DRAGGED, 
                 event -> refreshInOutCenter() //WHATTTT LAMBDA EXPRESSIONS FTW
         );
+		this.addEventFilter(MouseDragEvent.MOUSE_DRAG_RELEASED,
+				event -> refreshInOutCenter()
+		);
 	}
 	
 	public void setMainApp(MainApp mainApp){
